@@ -1,0 +1,128 @@
+#+last updated : 2011/10/30 01:06
+#+TITLE: セキュリティとかバイナリとか
+#+AUTHOR: kurohuku
+#+LANGUAGE: ja
+#+OPTIONS: toc:t
+
+* 用語
+** AES暗号 							      :crypt:
+Advanced Encryption Standard.
+共通鍵暗号の規格の一つで、ブロック暗号。
+ブロック長は128ビット、鍵長は128、192、256ビットの3種。
+
+** ASLR 						      :local:defence:
+Address Space Layout Randomization.
+プロセス実行時にデータ、スタック、ヒープ、ライブラリなどのアドレス配置を
+ランダムにする。
+exploitに使われてしまうような関数やデータのアドレスを見つけにくくする。
+
+** CSRF  							 :web:attack:
+Cross Site Request Forgeries.
+Webサイト閲覧時に別のWebサイトにGETやPOSTリクエストを送信させて、
+そのWebサイトのサービスを強制的に行わせる攻撃手法。
+
+認証が必要なサイトでも、CookieでセッションIDを保持して
+ログイン状態となっているとこの攻撃を受けることになる。
+
+** Click Jacking 						 :web:attack:
+=> #<<UI Redressing>>
+
+** Code Injection
+** Cookie Monster 							:web:
+** DEP
+** DNS Cache Poisoning 					     :network:attack:
+** DNSSEC  							    :network:
+** Directory Traversal
+=> #<<Path Traversal>>
+** Domain Keys Identitied Mail
+** File Fuzzing
+** File Inclusion
+** Format String Attack 				       :local:attack:
+** IP Spoofing 						     :network:attack:
+** IPSec 							    :network:
+** Integer Overflow 
+** Kaminsky Attack 					     :network:attack:
+** MD5 								      :crypt:
+** Man In The Middle  					     :network:attack:
+** Null Byte Attack
+** Off By One Error
+** Path Traversal
+#<<Directory Traversal>>
+** Port Scan 							    :network:
+** RC4 								      :crypt:
+** Rainbow Table 						      :crypt:
+ハッシュ値の元の値を探すための手法、あるいはその手法で利用されるテーブル。
+
+** SHA 								      :crypt:
+ハッシュ関数。
+
+** Same Origin Policy
+** Sender Policy Framework
+** Session Hijack
+** Stack Guard
+** Stack Smaching Protector
+** Timing Analysis of Key Stroke
+** Timing Attack
+** UI Redressing
+=> #<<Click Jacking>>
+** WEP
+** Windows AutoRun
+** XSS
+** killbit 
+** return to libc
+** strcmp Timing Atack
+** 関連鍵攻撃
+
+* ツール・コマンド
+** John the Ripper
+パスワードクラッカ。
+** Metasploit
+セキュリティに関するプロジェクト。
+またはMetasploit Frameworkの略。
+商用製品も存在する。
+ペネトレーションテストに利用できる。
+   
+** Nessus
+脆弱性スキャンツール。
+商用利用ではライセンス購入が必要?
+
+** SAINT
+** WHAX
+** burpsuite
+** dirbuster
+** fiddler
+Microsoftが無償で配布しているWebデバッガ。
+ローカルプロキシを利用してHTTP(S)のリクエストやレスポンスを解析したり
+内容を差し替えたりできる。
+=> [[www.fiddler2.com][www.fiddler2.com]]
+
+** http analyzer
+** IDA   
+** nmap
+ポートスキャナ
+** objdump
+逆アセンブラ
+** Ollydbg
+** paros
+Webアプリケーション用脆弱性スキャンツール。
+(ローカル)プロキシ。
+
+** ratproxy
+** scalp
+** spike proxy
+** strings
+** webscarab
+Webアプリケーションデバッグツール。
+(ローカル)プロキシ。
+
+* 組織・イベント
+CSIRT
+JPCERT
+
+* 参考
+Scan Net Security
+XSS Cheat Sheet
+tutorial write an exploit
+webappsec.org
+www.owasp.org
+capture.thefl.ag
