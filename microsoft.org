@@ -1,0 +1,18 @@
+#+last updated : 2011/10/30 01:06
+#+TITLE: WindowsやOffice
+#+AUTHOR: kurohuku
+#+LANGUAGE: ja
+#+OPTIONS: toc:t
+
+* PowerShell
+** n日前の日時を取得する
+: (get-date).AddDays(-n)
+** grep
+: select-string
+** XML
+#+begin_example
+$xml = [xml]"<foo><bar>123</bar></foo>"
+$xml.foo.bar
+ # => 123
+#+end_example
+
