@@ -11,9 +11,9 @@
 : select-string
 ** XML
 #+begin_src powershell
-$xml = [xml]"<foo><bar>123</bar></foo>"
-$xml.foo.bar
- => 123
+: $xml = [xml]"<foo><bar>123</bar></foo>"
+: $xml.foo.bar
+: # => 123
 #+end_src
 
 
