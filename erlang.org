@@ -1,0 +1,116 @@
+#+last updated : 2011/10/30 01:06
+#+TITLE: Erlang
+#+AUTHOR: kurohuku
+#+LANGUAGE: ja
+#+OPTIONS: toc:t
+
+* stdlib
+** array
+#+begin_example
+:array () ->
+:    %% 作成
+:    A = array:new(10),
+:    %% 初期値を返す
+:    UnInitialized = array:default(A),
+:    UnInitialized = undefined,
+:    %% サイズを取得する
+:    10 = array:size(A),
+:    %% set時に自動的に伸張する配列にする
+:    A1 = array:relax(A),
+:    false = array:is_fix(A1),
+:    %% 値を挿入する。伸張可能なので自動的に要素数が増える。
+:    A2 = array:set(17, true, A2),
+:    true = array:get(17, A2),
+:    UnInitialized = array:get(16, A2),
+:    %% set時に自動的に伸張しない配列にする
+:    A3 = array:fix(A2),
+:    true = array:is_fix(A3),
+:    %%% array:set(20, true, A3) とするとエラー
+:    %% オプションを指定して作成
+:    %% (初期値を0、初期サイズを8、set時に伸張しない)
+:    B = array:new([{default, 0}, {size, 8}, {fixed, false}]),
+:    %% map関数。引数にとる関数は、添え字と要素を引数にとる。
+:    B1 = array:map(fun (Index, Term) -> {Index, Term} end, B),
+:    {0, 0} = array:get(0, B1),
+:    %% 指定した添え字の値をデフォルト値に戻す
+:    0 = array:get(0, array:reset(0, B1)),
+:    %% fold関数。引数にとる関数は添え字と要素とアキュムレータを引数にとる。
+:    % (0 + 1 + 2 + 3 + 4 + 5 + 6 + 7) = 28
+:    28 = array:foldr(fun (I, _Term, Acc) -> I + Acc end, 0, B),
+:    %% リストからarrayを作成
+:    C = array:from_list([0, 0, 0]),
+:    %% リストへ変換
+:    [0, 0, 0] = array:to_list(C),
+:    %% 添え字と要素のタプルのリストへ変換
+:    [{0, 0}, {1, 0}, {2, 0}] = array:to_orddict(C),
+:    %% デフォルト値をスキップするmap,fold,to_list,size
+:    D = array:new(10, {default, -1}),
+:    D1 = array:set(2, 10, D),
+:    2 = array:sparse_foldl(fun (I, _X, Acc) -> I + Acc end, 0, D1),
+:    -1 = array:get(0, array:spars_map(fun (I, _X) -> I end, D1)),
+:    [10] = array:sparse_to_list(D1),
+:    %% デフォルト値でない要素が最後に現れる位置までのサイズ
+:    3 = array:sparse_size(D1),
+:    done.
+#+end_example
+
+** string
+#+begin_example
+:string () ->
+:    %% サイズ
+:    3 = string:len("ABC"),
+:    %% 比較
+:    true = string:equal("ABC", [$A, $B, $C]),
+:    false = string:equal("ABC", "AbC"),
+:    %% 連結
+:    "ABC123" = string:concat("ABC", "123"),
+:    %% 文字の検索。添え字(文字列=リストなので1ベース)が返る
+:    %% 見つからない場合は0が返る
+:    1 = string:chr("hello", $h),
+:    4 = string:rchr("hello", $l),
+:    0 = string:chr("hello", $a),
+:    %% 文字列の検索。文字の検索と同様。
+:    1 = string:str("hello", "he"),
+:    3 = string:rstr("hello", "ll"),
+:    %% 指定した文字以外が現れるまでのサイズを返す
+:    2 = string:span("hello", "heo"),
+:    %% 指定した文字が現れるまでのサイズを返す
+:    2 = string:cspan("hello", "ll"),
+:    %% 部分文字列を返す(開始位置, サイズ)
+:    "llo" = string:substr("hello", 3),
+:    "ll" = string:substr("hello", 3, 2),
+:    %% 部分文字列を返す(開始位置, 終了位置)
+:    "llo" = string:sub_string("hello", 3),
+:    "ll" = string:sub_string("hello", 3, 4),
+:    %% 指定した文字で分割する
+:    ["abc", "123"] = string:tokens("abc X 123", " X"),
+:    %% 指定した文字で連結する
+:    "abc,123" = string:join(["abc", "123"], ","),
+:    %% 指定した文字で文字列を作成する
+:    "AA" = string:chars($A, 2),
+:    "AA" = string:chars($A, 2, []),
+:    %% 同じ文字列を繰り返す
+:    "ABCABCABC" = string:copies("ABC", 3),
+:    %% 単語(空白または指定した文字区切り)の数を返す
+:    2 = string:words("123 456"),
+:    2 = string:words("hello", $l),
+:    %% 指定した位置にある単語を返す
+:    "456" = string:sub_word("123 456", 2),
+:    "o" = string:sub_word("hello", 2, $l),
+:    %% 先頭、末尾あるいはその両方にある連続した空白(指定した文字)を削除する
+:    "hello" = string:strip("     hello     "),
+:    " hello" = string:strip(" hello ", right),
+:    "helloA" = string:strip("AhelloA", left, $A),
+:    "hello" = string:strip("AhelloA", both, $A),
+:    %% 指定した文字数になるようパディングして文字列を作成する
+:    "hello     " = string:left("hello", 10),
+:    ".....hello" = string:right("hello", 10, $.),
+:    "..hello..." = string:centre("hello", 10, $.),
+:    %% 数値に変換する
+:    {10, "aaa"} = string:to_integer("10aaa"),
+:    {10.0, "aaa"} = string:to_float("10.0aaa"),
+:    %% 大文字/小文字に変換する
+:    $A = string:to_upper($a),
+:    "abc" = string:to_lower("AbC"),
+:    done.
+#+end_example

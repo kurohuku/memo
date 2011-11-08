@@ -15,5 +15,3 @@
 : $xml.foo.bar
 : # => 123
 #+end_src
-
-
