@@ -19,7 +19,7 @@
 :    A1 = array:relax(A),
 :    false = array:is_fix(A1),
 :    %% 値を挿入する。伸張可能なので自動的に要素数が増える。
-:    A2 = array:set(17, true, A2),
+:    A2 = array:set(17, true, A1),
 :    true = array:get(17, A2),
 :    UnInitialized = array:get(16, A2),
 :    %% set時に自動的に伸張しない配列にする
@@ -47,7 +47,7 @@
 :    D = array:new(10, {default, -1}),
 :    D1 = array:set(2, 10, D),
 :    2 = array:sparse_foldl(fun (I, _X, Acc) -> I + Acc end, 0, D1),
-:    -1 = array:get(0, array:spars_map(fun (I, _X) -> I end, D1)),
+:    -1 = array:get(0, array:sparse_map(fun (I, _X) -> I end, D1)),
 :    [10] = array:sparse_to_list(D1),
 :    %% デフォルト値でない要素が最後に現れる位置までのサイズ
 :    3 = array:sparse_size(D1),
