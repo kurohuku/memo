@@ -15,3 +15,8 @@
 : $xml.foo.bar
 : # => 123
 #+end_src
+** 1行入力
+: [Console]::ReadLine()
+** 環境変数
+: $env:ParamName
+

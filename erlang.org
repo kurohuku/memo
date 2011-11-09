@@ -114,3 +114,28 @@
 :    "abc" = string:to_lower("AbC"),
 :    done.
 #+end_example
+
+** re
+#+begin_example
+re () ->
+    %% 正規表現をコンパイル
+    {ok, Reg} = re:compile("A(\\d+)(C|D)"),
+    %% マッチした要素をリストとして抜き出す
+    {match, ["123"]} = re:run("A123D", Reg, [{capture, [1], list}]),
+    %% マッチに失敗するとnomatchが返る
+    nomatch = re:run("ABCD", Reg),
+    %% マッチした要素の添え字(0ベース)と長さを抜き出す
+    {match, [{0, 5}, {1, 3}, {4, 1}]} = re:run("A123D", Reg).
+#+end_example
+
+* 逆引き
+** 正規表現にマッチする箇所を抜き出す
+#+begin_example
+: re:run("2011/02/10 12:34:56",
+: 	  "(\\d{4})/(\\d{2})/(\\d{2}) (\\d+):(\\d+):(\\d+)",
+: 	  [{capture, [1, 2, 3, 4, 5, 6], list}]).
+: % => {match,["2011","02","10","12","34","56"]}
+: re:run("ABC123456", ".*(123).*").
+: % => {match,[{0,9},{3,3}]}
+#+end_example
+
