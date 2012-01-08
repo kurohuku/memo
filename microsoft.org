@@ -1,4 +1,4 @@
-#+last updated : 2011/10/30 01:06
+#+last updated : 2012/01/08 18:40
 #+TITLE: WindowsやOffice
 #+AUTHOR: kurohuku
 #+LANGUAGE: ja
@@ -20,3 +20,24 @@
 ** 環境変数
 : $env:ParamName
 
+
+* Word
+** 背景色を付ける
+: (2003) ［罫線］->［線種とページ罫線と網かけの設定］-> [網かけ]
+
+** 背景色を印刷する
+: (2003) [ツール] -> [オプション] -> [印刷] -> [背景の色とイメージ]
+
+* Excel
+** 背景色のあるセルをカウントする
+: Function CountColorCell(r, cNo)
+:  acc = 0
+:  For Each c In r
+:   If c = c.MergeArea.Item(1) Then
+:    If c.Interior.ColorIndex = cNo Then
+:     acc = acc + 1
+:    End If
+:   End If
+:  Next
+:  CountColorCell = acc
+: End Function
