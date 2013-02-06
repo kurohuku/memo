@@ -11,11 +11,11 @@ Clojureでのクラスなどの関係は、以下の2つによって表現され
 
 Clojureでクラスなどの関係を調べる方法としては、
 
- - Javaのメソッド(.getSuperclassesなど)を使う
+ - Javaのメソッド(.getSuperclassなど)を使う
  - Javaメソッドのラッパー(clojure.core/basesなど)を使う
  - bean 関数を使う
  - clojure.reflectを使う
- - hierarchy を利用する (clojure.core/parentなど)
+ - hierarchy を利用する (clojure.core/parentsなど)
 
 などがあるようです。
 
@@ -78,6 +78,37 @@ Clojureでクラスなどの関係を調べる方法としては、
    (ancestors (type [])))
 ;; => true
 ```
+
+-------------------------------------------------
+## メソッド一覧を取得する
+
+
+```clojure
+(require '[clojure.reflect :as r])
+
+(defn list-method [klass]
+  (->> (r/reflect klass)
+       :members
+       (filter #(instance? clojure.reflect.Method %))
+       (map :name)))
+
+(list-method Object)
+;; => (registerNatives clone wait notifyAll getClass equals
+;;     hashCode notify finalize wait wait toString)
+
+(vec (map #(.getName %) (.getMethods Object)))
+;; => ["wait" "wait" "wait" "equals" "toString" "hashCode" "getClass" "notify" "notifyAll"]
+
+(vec (map #(.getName %) (:methods (bean Object))))
+;; => ["wait" "wait" "wait" "equals" "toString" "hashCode" "getClass" "notify" "notifyAll"]
+
+(vec (map #(.getName %) (.getDeclaredMethods Object)))
+;; => ["finalize" "wait" "wait" "wait" "equals" "toString"
+;;     "hashCode" "getClass" "clone" "registerNatives" "notify" "notifyAll"]
+
+```
+
+
 
 -------------------------------------------------
 ## 関数の引数リストを取得する
